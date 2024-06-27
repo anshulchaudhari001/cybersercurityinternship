@@ -1,0 +1,32 @@
+import scapy.all as scapy
+
+def sniff_packets(interface, count):
+    scapy.sniff(iface=interface, count=count, store=False, prn=process_packet)
+
+def process_packet(packet):
+    # Get source and destination IP addresses
+    src_ip = packet[scapy.IP].src
+    dst_ip = packet[scapy.IP].dst
+
+    # Get protocol
+    protocol = packet.protocol
+
+    # Get payload data
+    payload = packet.payload
+
+    # Display packet information
+    print("Source IP:", src_ip)
+    print("Destination IP:", dst_ip)
+    print("Protocol:", protocol)
+    print("Payload:")
+    print(payload)
+    print()
+
+def main():
+    interface = input("Enter the interface to sniff (e.g., eth0, wlan0): ")
+    count = int(input("Enter the number of packets to capture: "))
+
+    sniff_packets(interface, count)
+
+if __name__ == "__main__":
+    main()
